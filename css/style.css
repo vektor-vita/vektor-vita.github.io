@@ -43,7 +43,7 @@ body {
 
 img { max-width: 100%; height: auto; }
 
-a { color: var(--teal-600); text-decoration: none; }
+a { color: var(--teal-600); text-decoration: none; overflow-wrap: break-word; word-break: break-word; }
 a:hover { color: var(--navy-700); text-decoration: underline; }
 
 h1, h2, h3, h4 { line-height: 1.25; color: var(--navy-800); font-weight: 700; }
@@ -190,7 +190,12 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--navy-800); font-weight: 700; }
   gap: 36px;
   align-items: center;
 }
+.hero-grid > * { min-width: 0; }
 .hero-img {
+  display: block;
+  margin-inline: auto;
+  width: 100%;
+  max-width: min(520px, 100%);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   border: 1px solid rgba(255, 255, 255, .35);
@@ -231,7 +236,6 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--navy-800); font-weight: 700; }
 
 @media (max-width: 860px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-img { max-width: 520px; }
 }
 
 /* ---------- Секции и карточки ---------- */
@@ -298,7 +302,7 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--navy-800); font-weight: 700; }
 @media (max-width: 560px) { .two-col-grid { columns: 1; } }
 
 /* ---------- Награды ---------- */
-.awards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+.awards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
 .award {
   display: flex;
   gap: 18px;
@@ -321,7 +325,7 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--navy-800); font-weight: 700; }
 /* ---------- Продукты ---------- */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
 }
 .product {
@@ -380,7 +384,7 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--navy-800); font-weight: 700; }
 /* ---------- Применения ---------- */
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
 }
 .app-card {
@@ -583,3 +587,59 @@ details.acc .acc-body { padding: 4px 22px 22px; }
 
 /* Печать / доступность */
 :focus-visible { outline: 3px solid var(--teal-400); outline-offset: 2px; }
+
+/* ============================================================
+   МОБИЛЬНАЯ АДАПТАЦИЯ (смартфоны, планшеты)
+   ============================================================ */
+
+/* Планшеты / широкие смартфоны — таблицы с ЭМ-снимками получают
+   горизонтальную прокрутку вместо обрыва экрана */
+@media (max-width: 760px) {
+  .em-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .em-table th { width: 140px; }
+}
+
+/* Узкие смартфоны: компактные отступы и безопасные одноколоночные сетки */
+@media (max-width: 640px) {
+  .section { padding: 36px 0; }
+  .hero .wrap { padding-block: 40px 34px; }
+  .hero h1 { font-size: 1.65rem; }
+  .hero .subtitle { font-size: 1.02rem; }
+  .cta-row { margin-top: 22px; }
+  .btn { padding: 12px 18px; font-size: .95rem; }
+
+  .toc { flex-direction: column; align-items: stretch; gap: 2px; }
+  .toc a { padding: 8px 10px; border-radius: 8px; }
+  .toc a:hover { background: var(--silver-200); text-decoration: none; }
+
+  .awards, .cards, .products-grid, .app-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  .panel, .card, .contact-card { padding: 20px 18px; }
+  .refs { padding-left: 16px; }
+  .big-quote { margin: 16px 0; padding-left: 12px; }
+  .files a { display: inline-block; margin: 0 0 8px; }
+}
+
+/* Контакты и шапка на самых узких экранах */
+@media (max-width: 480px) {
+  .kv li { flex-direction: column; gap: 3px; padding: 11px 0; }
+  .kv .k { min-width: 0; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-soft); }
+  .award { flex-direction: column; }
+  .award img { width: 88px; }
+  .site-header .wrap { gap: 10px; padding-block: 8px; }
+  .brand img { width: 56px; border-radius: 8px; }
+  .brand-name { font-size: .9rem; }
+  .brand-name small { font-size: .66rem; }
+  .contact-card { padding: 22px 18px; }
+  .footer-bottom { font-size: .76rem; }
+}
+
+/* Плавный скролл с учётом высоты sticky-шапки при переходе по якорям */
+html { scroll-behavior: smooth; }
+
+/* Уважение к настройке «уменьшить движение» */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .to-top, .btn, .card, .product, .app-card { transition: none !important; }
+}
